@@ -10,3 +10,10 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Binaries
+app
+app-mac
+
+# Temp PowerPoint files
+~$*.pptx
