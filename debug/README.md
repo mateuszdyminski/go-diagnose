@@ -2,7 +2,7 @@
 
 For Docker
 ```bash
-GOOS=linux GOARCH=amd64 go build -gcflags "all=-N -l" -ldflags=-compressdwarf=false -o app .
+GOOS=linux GOARCH=amd64 go build -gcflags="all=-N -l" -o app .
 ```
 
 For Mac
