@@ -17,3 +17,8 @@ app-mac
 
 # Temp PowerPoint files
 ~$*.pptx
+
+# Profiles and Traces
+*.cpu
+*.mem
+*.trace

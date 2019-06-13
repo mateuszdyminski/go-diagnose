@@ -1,63 +1,25 @@
 package main
 
 import (
-	"image"
-	"image/draw"
-	"image/jpeg"
-	"image/png"
+	"flag"
 	"log"
 	"net/http"
+
 	_ "net/http/pprof"
-	"os"
+
+	"github.com/mateuszdyminski/go-diagnose/profile/handlers"
 )
 
+const hostPort = ":8090"
+
 func main() {
-	http.Handle("/hello", http.HandlerFunc(helloHandler))
+	flag.Parse()
 
-	http.ListenAndServe("localhost:8181", http.DefaultServeMux)
-}
+	http.HandleFunc("/statsHello", handlers.WithStats(handlers.Hello))
+	http.HandleFunc("/hello", handlers.Hello)
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello world!"))
-}
-
-func watermark(w http.ResponseWriter, r *http.Request) {
-	image1, err := os.Open("jellyfish.jpg")
-	if err != nil {
-		log.Fatalf("failed to open: %s", err)
+	log.Printf("Starting HTTP server on port %s \n", hostPort)
+	if err := http.ListenAndServe(hostPort, nil); err != nil {
+		log.Fatalf("HTTP server failed: %v", err)
 	}
-
-	first, err := jpeg.Decode(image1)
-	if err != nil {
-		log.Fatalf("failed to decode: %s", err)
-	}
-	defer image1.Close()
-
-	image2, err := os.Open("pokeball.png")
-	if err != nil {
-		log.Fatalf("failed to open: %s", err)
-	}
-	second, err := png.Decode(image2)
-	if err != nil {
-		log.Fatalf("failed to decode: %s", err)
-	}
-	defer image2.Close()
-
-	offset := image.Pt(300, 200)
-	b := first.Bounds()
-
-	min := image.Point{X: 0, Y: 0}
-	max := image.Point{X: 1024, Y: 1024}
-	rectange := image.Rectangle{Min: min, Max: max}
-
-	image := image.NewRGBA(rectange)
-	draw.Draw(image, rectange, second, image.ZP, draw.Over)
-
-	third, err := os.Create("result.jpg")
-	if err != nil {
-		log.Fatalf("failed to create: %s", err)
-	}
-	jpeg.Encode(third, image, &jpeg.Options{jpeg.DefaultQuality})
-	defer third.Close()
-
 }
