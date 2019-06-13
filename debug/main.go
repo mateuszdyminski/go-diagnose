@@ -12,7 +12,9 @@ func main() {
 	http.Handle("/add", http.HandlerFunc(addHandler))
 
 	log.Println("Starting HTTP server on port 8081")
-	http.ListenAndServe(":8081", http.DefaultServeMux)
+	if err := http.ListenAndServe(":8081", http.DefaultServeMux); err != nil {
+		log.Fatalln(err.Error())
+	}
 }
 
 func addHandler(w http.ResponseWriter, r *http.Request) {
