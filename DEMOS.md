@@ -1,14 +1,17 @@
 
 # DEBUG Local
+```
 cd debug
 code .
 <Run server from VS Code>
 curl http://localhost:8081/add?vals=1,2,4
 <Set breakpoint>
 <Show in VS Code that we hit the breakpoint>
+```
 
 
 # DEBUG Remote
+```
 cd debug
 code .
 go build -gcflags "all=-N -l" -ldflags=-compressdwarf=false -o app-mac .
@@ -23,9 +26,11 @@ dlv attach --headless --listen=:2345 --log --api-version=2 --accept-multiclient=
 <Run debugger>
 curl http://localhost:8081/add?vals=1,2,4
 <Show in VS Code that we hit the breakpoint>
+```
 
 
 # DEBUG Docker
+```
 cd debug
 code .
 docker build -t mateuszdyminski/debug:latest .
@@ -38,8 +43,11 @@ curl http://localhost:8081/add?vals=1,2,4
 <Run debugger>
 curl http://localhost:8081/add?vals=1,2,4
 <Show in VS Code that we hit the breakpoint>
+```
+
 
 # PROFILING
+```
 cd profile
 go run main.go
 <Split terminal horizontally>
@@ -68,8 +76,10 @@ go tool pprof -http :8091 -seconds 5 http://localhost:8090/debug/pprof/profile
 <Refactor code>
 <Run wrk once again>
 wrk -d 5s http://localhost:8090/statsHello
+```
 
 # EXECUTION TRACER
+```
 cd trace
 export GOMAXPROCS=1
 go run main.go
@@ -92,9 +102,11 @@ export GOMAXPROCS=8
 <Refactor code - remove sleep>
 <Rerun server>
 <Show tracer>
+```
 
 
 # INSTRUMENTATION WITH PROMETHEUS
+```
 cd instrument
 code .
 <Describe logs in terminal>
@@ -104,3 +116,4 @@ http://localhost:8095/metrics
 http://localhost:8095/register?name=gogoconf
 http://localhost:8095/register?name=golang
 http://localhost:8095/metrics
+```
