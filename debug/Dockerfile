@@ -1,7 +1,7 @@
-FROM golang:1.12.5
+FROM golang:1.13.4
 
 # Delve Configuration
-RUN go get -u -v github.com/derekparker/delve/cmd/dlv
+RUN go get -u -v github.com/go-delve/delve/cmd/dlv
 EXPOSE 40000
 
 # App Configuration
